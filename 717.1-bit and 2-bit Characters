@@ -15,3 +15,20 @@ public:
         return false;
     }
 };//   C++
+
+# python
+class Solution:
+    def isOneBitCharacter(self, bits: List[int]) -> bool:
+        size = len(bits)
+        i = 0
+        while i<size :
+            if bits[i] == 1:
+                i+=2
+            elif (i!=size-1) and (bits[i]==0) :
+                i+=1
+            elif (i==size-1 )and (bits[i]==0) :
+                return True
+        return False
+
+            
+        
