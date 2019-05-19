@@ -1,0 +1,110 @@
+class Solution {
+public:
+//     string longestPalindrome(string s) {
+//         int len=s.size();
+// 	char* T =(char* )malloc(sizeof(char)*(2*len+3));
+// 	T[0]='$';
+// 	T[1]='#';
+// 	int j=2;
+// 	for(int i=0;i<len;i++)
+// 	{
+// 		T[j++]=s[i];
+// 		T[j++]='#';
+// 	}
+// 	T[j]='\0';
+//     int p[j]={0};
+// 	int max_len=-1;
+// 	int mx=0;
+// 	int id, resLen = 0, resCenter = 0;
+// 	for(int i=1;i<j;i++)
+// 	{
+// 		if(i<mx)
+// 			p[i]= min(p[2*id-i],mx-i);
+// 		else 
+// 			p[i]=1;
+// 		while(T[i-p[i]] == T[i+p[i]])
+// 			{
+// 				p[i]++;
+// 			}
+// 		if(mx<i+p[i]){
+// 			id=i;
+// 			mx=i+p[i];
+// 		}
+// 	     if (resLen < p[i]) {
+//             resLen = p[i];
+//             resCenter = i;
+//         }
+// 	}
+// 	string ans="";
+// 	 for(int i=resCenter-resLen+1;i<=resCenter+resLen-1;i++)
+// 	 	{
+// 	 		if((T[i]!='#')&&(T[i]!='$')&&(T[i]!=' '))
+// 	 			ans+=T[i];
+// 		 }
+// 		ans+="\0";
+// 	//如何把一个字符数组转换成为一个字符串 
+// //	for(int i=id-p[id];i<=id+p[id];i++)
+// //		{
+// //			if((T[i]!='#')&&(T[i]!=' ')&&(T[i]!='$'))
+// //				ans[cnt++]=T[i];
+// //		}
+// //	 ans[cnt]='\0';
+// //	return ans;
+// 	return ans;
+//     }
+//       string longestPalindrome(string s){
+//             int size =  s.length();
+//             int start =0,end=0;
+//             for(int i=0;i<s.length();i++)
+//             {
+//                 int left=i,right;
+//                 int maxlen=0;
+//                 right = i;
+//                 for(;left>=0&&right<s.length()&&s[left]==s[right];)
+//                 {
+//                     left--,right++;
+//                 }
+//                 if(right-left-1>maxlen)
+//                 {   
+//                     start=left+1;
+//                     end = right-1;
+//                     maxlen = end-start+1;
+//                 }
+//                 left=i,right=i+1;
+//                 for(;left>=0&&right<s.length()&&s[left]==s[right];)
+//                 {
+//                     left--,right++;
+//                 }
+//                 if(right-left-1>maxlen)
+//                 {
+//                     start=left+1;
+//                     end = right-1;
+//                     maxlen = end-start+1;
+//                 }
+                
+//             }
+//           string ans="";
+//           for(int i=start;i<=end;i++)
+//               ans+=s[i];
+//          return ans;
+//       }
+         string longestPalindrome(string s) {
+        if (s.size() < 2) return s;
+        int n = s.size(), maxLen = 0, start = 0;
+        for (int i = 0; i < n;) {
+            if (n - i <= maxLen / 2) break;
+            int left = i, right = i;
+            while (right < n - 1 && s[right + 1] == s[right]) ++right;
+            i = right + 1;
+            while (right < n - 1 && left > 0 && s[right + 1] == s[left - 1]) {
+                ++right; --left;
+            }
+            if (maxLen < right - left + 1) {
+                maxLen = right - left + 1;
+                start = left;
+            }
+        }
+        return s.substr(start, maxLen);
+    }
+                   
+};
