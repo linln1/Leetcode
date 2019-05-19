@@ -1,0 +1,65 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        int cnt = 1;
+        ListNode* firsttempNode = new ListNode(0);
+        while(cnt<m)
+        {
+              cnt++;
+            ListNode* temp = new ListNode(head->val);
+            temp->next = firsttempNode->next;
+            firsttempNode->next = temp;
+            head = head->next;
+        }
+        ListNode* current = head;
+        while(cnt<=n)
+        {
+             cnt++;
+             current = current->next;
+        }
+        ListNode* secondtempNode = new ListNode(0);
+        while(current != NULL)
+        {
+            ListNode* temp = new ListNode(current->val);
+            temp->next = secondtempNode->next;
+            secondtempNode->next = temp;
+            current = current->next;
+        }
+                
+        ListNode* newheader = new ListNode(0);
+    secondtempNode =secondtempNode->next;
+    while(secondtempNode!=NULL)
+    {
+        ListNode* temp = new ListNode(secondtempNode->val);
+        temp->next = newheader->next;
+        newheader->next = temp;
+        secondtempNode = secondtempNode->next;
+    }
+    cnt=m;
+    while(cnt<=n)
+        {
+                ListNode* tmp = new ListNode(head->val);
+                tmp->next=newheader->next;
+                newheader->next=tmp;
+                head = head->next;
+                cnt++;
+        }
+        firsttempNode = firsttempNode->next;
+     while(firsttempNode!=NULL)
+     {
+        ListNode* temp = new ListNode(firsttempNode->val);
+        temp->next = newheader->next;
+        newheader->next = temp;
+        firsttempNode = firsttempNode->next;
+     }
+     return newheader->next;
+   }
+};
