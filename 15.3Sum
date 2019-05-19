@@ -37,4 +37,36 @@ public:
         }
         return res;
     }
-};
+};//C++
+
+#python3
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        size = len(nums)
+        nums.sort()   
+        ans = []
+        if size < 3:
+            return ans
+        i = 0
+        while i<size and nums[i]<=0:
+            left=i+1
+            right=size-1
+            sum = 0-nums[i]
+            while left<right and left<size and right>=0:
+                if (nums[left]+nums[right])>sum:
+                    right=right-1
+                elif (nums[left]+nums[right])<sum:
+                    left=left+1
+                elif (nums[left]+nums[right])==sum :
+                    while left<right and nums[left]==nums[left+1] :
+                        left+=1
+                    while left<right and nums[right]==nums[right-1] :
+                        right-=1
+                    ans.append([nums[i],nums[left],nums[right]])
+                    left = left+1
+                    right = right-1              
+            while i<size-1 and nums[i] == nums[i+1] :
+                i=i+1
+            i = i+1
+        return ans
+              
