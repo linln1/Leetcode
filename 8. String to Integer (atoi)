@@ -1,0 +1,58 @@
+class Solution {
+public:
+    // int myAtoi(string str) {
+    //     const int UPP_RANGE=2147483647;
+    //     const int LOW_RANGE=-247483648;
+    //     int len = str.length();
+    //     it f = 1;
+    //     for(int i=len-1;i>=0;i--)
+    //     {
+    //         if(isdigit(str[i]))
+    //             cnt++;
+    //         if(str[i]=='-')
+    //             f=-f;
+    //     }
+    //     if(cnt>10){
+    //         if(f==-1)
+    //             cout<<"-2147483648"<<endl;
+    //         else 
+    //             cout<<"2147483647"<<endl;
+    //     }
+    //     int sum = 0;
+    //     else if(cn<=9){
+    //         if(str[0]=='-')
+    //              for(int j=1;j<len&&isdigit(s[j]);j++)
+    //                  sum = sum*10+s[i]-'0';
+    //           return sum;
+    //     }
+    // }
+       int myAtoi(string str){
+            int MAX=2147483647;
+            int MIN=-2147483648;
+            int len=str.length();
+            int i=0,res=0,f=1;
+           while(str[i]==' '){
+                i++;
+           }
+           if(!isdigit(str[i])){
+                if(str[i]=='-')
+                    f=-1,i++;
+                else if(str[i]=='+')
+                    i++;
+                else
+                    return 0;
+           }
+           while(!isdigit(str[i])){
+               return 0;
+           }
+           for(int j=i;j<=len-1&&isdigit(str[j]);j++)
+           {
+             if(f==1&&((res>MAX/10)||((res==MAX/10)&&(str[j]-'0')>7)))
+                 return MAX;
+             if(f==-1&&((res>MAX/10)||(res==MAX/10)&&(str[j]-'0')>7))
+                 return MIN;
+               res=(str[j]-'0')+res*10;
+           }
+           return f*res;
+       }
+};
