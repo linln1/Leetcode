@@ -1,0 +1,21 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        int cnt=0;
+        int digit[20];
+        if(x<0) return false;
+        while(x){
+            digit[++cnt]=x%10;
+            x/=10;
+        }
+        int i=1,j=cnt;
+        while(i<=j)
+        {
+            if(digit[i]==digit[j])
+                i++,j--;
+            else 
+                return false;
+        }
+        return true;
+    }
+};
