@@ -1,0 +1,42 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+          ListNode* temp = new ListNode(0);
+         temp = head;
+        int cnt=0;
+        while(temp!=nullptr){
+            cnt++;
+            temp = temp->next;
+        }
+        int* a = new int[cnt<<1];
+        ListNode* current = head;
+        int i=0;
+        for(;current!=nullptr;)
+        {
+           if(current->val<x) 
+             a[++i]=current->val;
+            current = current->next;
+        }
+        while(head!=nullptr){
+          if(head->val>=x)
+            a[++i]=head->val;
+          head = head->next;
+        }
+        ListNode* res = new ListNode(0);
+        for(int i=1;i<=cnt;i++)
+        {
+            ListNode* temp = new ListNode(a[cnt-i+1]);
+            temp->next = res->next;
+            res->next = temp;
+        }
+        return res->next;
+    }
+};
