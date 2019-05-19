@@ -1,0 +1,80 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* ans = new ListNode(0);
+        int cf=0;
+        ListNode* reversef = new ListNode(0);
+        ListNode* reverses = new ListNode(0);
+        while(l1!=NULL)
+        {
+            ListNode* temp = new ListNode(l1->val);
+            temp->next = reversef->next;
+            reversef->next = temp;
+            l1=l1->next;
+        }
+        reversef = reversef->next;
+        while(l2!=NULL)
+        {
+            ListNode* temp = new ListNode(l2->val);
+            temp->next = reverses->next;
+            reverses->next = temp;
+            l2=l2->next;
+        }
+        reverses = reverses->next;
+        while(reversef!=NULL&&reverses!=NULL)
+        {   
+            ListNode* temp = new ListNode((reversef->val+reverses->val+cf)%10);
+            cf = (reversef->val+reverses->val+cf)/10;
+            temp->next = ans->next;
+            ans->next = temp;
+            reversef = reversef->next;
+            reverses = reverses->next;
+        }
+        if(reverses==NULL)
+        {
+            while(reversef!=NULL)
+            {   
+                ListNode* temp = new ListNode((reversef->val+cf)%10);
+                cf = (reversef->val+cf)/10;
+                temp->next = ans->next;
+                ans->next = temp;
+                reversef = reversef->next;
+            }
+        }
+        else if(reversef==NULL)
+        {
+            while(reverses!=NULL)
+            {
+                ListNode* temp = new ListNode((reverses->val+cf)%10);
+                cf = (reverses->val+cf)/10;
+                temp->next = ans->next;
+                ans->next = temp;
+                reverses = reverses->next;
+            }
+        }
+        // ListNode* res =new ListNode(0);
+        // ans = ans->next;
+        // while(ans!=NULL)
+        // {
+        //  ListNode* temp = new ListNode(ans->val);
+        //     temp->next = res->next;
+        //     res->next = temp;
+        //     ans = ans->next;
+        // }
+        if(cf!=0)
+        {
+            ListNode* temp = new ListNode(cf);
+            temp->next = ans->next;
+            ans->next =temp ;
+        }
+      return ans->next;
+    }
+};
