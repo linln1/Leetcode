@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<ListNode*> splitListToParts(ListNode* root, int k) {
+        int size = 0;
+        vector<ListNode*> ans;
+        ListNode* current = root;
+        ListNode* newheader = new ListNode(0);
+        while(current != nullptr)
+        {
+            size++;
+            ListNode* temp =  new ListNode(current->val);
+            temp->next = newheader->next ;
+            newheader->next = temp;
+            current = current->next ;
+        }
+        if(size==0)
+        {
+            for(int i=0;i<k;i++)
+                ans.push_back(nullptr);
+            return ans;
+        }
+        int surplus = size%k;
+        size = size/k;
+        newheader = newheader->next;
+        for(int i=k-1;i>=surplus;i--)
+        {
+            ListNode* now = new ListNode(0);
+            if(newheader == nullptr)
+                 {
+                ans.push_back(nullptr);
+                break;
+            }
+            for(int j=0;j<size;j++)
+            {
+                ListNode* temp = new ListNode(newheader->val);
+                temp->next = now->next;
+                now->next = temp;
+                newheader = newheader->next ;
+            }
+            ans.push_back(now->next);
+        }
+        for(int i=surplus-1;i>=0;i--)
+        {
+            ListNode* now = new ListNode(0);
+            if(newheader == nullptr)
+                  {
+                 ans.push_back(nullptr);
+                break;
+            }
+            for(int j=0;j<=size;j++)
+            {
+                ListNode* temp = new ListNode(newheader->val);
+                temp->next = now->next;
+                now->next = temp;
+                newheader = newheader->next ;
+            }
+            ans.push_back(now->next);
+        }
+        vector<ListNode*> res;
+        for(int i=ans.size()-1;i>=0;i--)
+        {
+            res.push_back(ans[i]);
+        }
+        return res;
+    }
+};
