@@ -1,0 +1,84 @@
+// class Solution {
+// public:
+// //     int maxArea(vector<int>& height) {
+// //         int size = height.size()-1;
+// //         int leftbound = 0,rightbound = size;
+// //         int width = rightbound - leftbound ;
+// //         int maxsize = min(height[0],height[size])*width;
+// //         int l = 0, r=size-1;
+// //         while(l<r){
+// //           int minedge = min(height[leftbound],height[rightbound]);
+// //            do{ 
+// //                l++;
+// //             } while(height[l]<height[leftbound]&&l<r);
+             
+// //            do{
+// //                r--;
+// //            }while(height[r]<height[rightbound]&&r>l);
+               
+// //             if(height[l]>minedge)
+// //             {
+// //                 int maxnew = min(height[l],height[rightbound])*(rightbound-l);
+// //                 if(maxnew > maxsize){
+// //                     maxsize = maxnew;
+// //                     leftbound = l;
+// //                     minedge = min(minedge,height[l]);
+// //                 }
+// //             }
+// //             if(height[r]>minedge)
+// //             {
+// //                 int maxnew = min(height[r],height[leftbound])*(r-leftbound);
+// //                 if(maxnew > maxsize){
+// //                     maxsize = maxnew;
+// //                     rightbound = r;
+// //                     minedge = min(minedge,height[r]);
+// //                 }
+// //             }
+// //         }
+// //       return maxsize;
+// //     }
+//      int maxArea(vector<int>& height) {
+//          vector<int> temp;
+//          int ans=0;
+//          int size = height.size();
+//          int* posi = (int*)malloc(sizeof(int)*size);
+//          for(int i=0;i<height.size();i++){
+//             temp.push_back(height[i]);
+//          }
+//          sort(temp.begin(),temp.end(),greater<int>());
+//          for(int i=0;i<temp.size();i++)
+//          {
+//             for(int j=0;j<height.size();j++)
+//                 if(temp[i]==height[j])
+//                     {
+//                      posi[i]=j;
+//                      break;
+//                     }
+//          }
+//          for(int i=1;i<temp.size();i++)
+//              for(int j=0;j<i;j++){
+//                  ans = max(temp[i]*abs((posi[i]-posi[j])),ans);
+//              }
+//          return ans;
+//      }
+// };
+// 纪念一下 写了一个多小时 怎么写都感觉差点就对了 不用longlong 有一组爆了 然后改成long long 一组都过不了。。。 
+// 最后心态爆炸 太菜了
+
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int size = height.size();
+        int l= 0, r = size-1;
+        int minedge = min(height[l],height[r]);
+        int area = 0;
+        while(l<r)
+        {
+            minedge = min(height[l],height[r]);
+            int newarea = minedge*(r-l);
+            area = max(area,newarea);
+            height[l]<height[r]? l++:r-- ;
+        }
+        return area;
+    }
+};
