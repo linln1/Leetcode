@@ -1,0 +1,29 @@
+class Solution {
+public:
+    bool isMatch(string s, string p) {
+    //对p的size进行分类 
+         //首先是第一类 p为空
+         if(p.empty()) return s.empty();
+         //然后是p长度为1 不会出现* 所以只有如下两种情况
+         if(p.size()==1)  return(s.size()==1&&((p[0]==s[0])||(p[0]=='.')));
+         //然后是p长度至少为2 那么就可能出现* 当没有出现*时正常判定
+         //注意到*符号当前的字符仅仅取决于前一个字母 所以当第一个字符匹配了之后可以将比对区域整体向后滑移一个 也就是递归调用isMatch
+         while(p[1]!='*'){
+             if(s.empty()) return false;
+             return ((p[0]==s[0])||(p[0]=='.'))&&isMatch(s.substr(1),p.substr(1));
+         }
+        //如果第二个字符时* 那么它与第一个字符可能匹配s也可能不匹配
+          //分为两种情况
+             //如果p与s的第一个字符不匹配，那么*一定=0 直接匹配(s,p.substr(2)) 即可
+             //如果p与s的第一个字符匹配， 那么情况会有点复杂
+               //鉴于可能出现  s=xyz   p=x*xyz的情况 也就是*可以=0,1,2,...
+               //那么每次将s滑移1个分别与p的substr(2)匹配 直到匹配为止就行
+        while(!s.empty()&&((p[0]==s[0])||(p[0]=='.')))
+        {
+            if(isMatch(s,p.substr(2)))
+                return true;
+            s = s.substr(1);
+        }
+        return isMatch(s,p.substr(2));
+    }
+};// 此题解法极其精妙 值得借鉴
