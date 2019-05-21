@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.size()==0)
+            return "";
+        string commonprefix ="";
+        int minlength = 100000;
+        int flag=1;
+        for(int i=0;i<strs.size();i++)
+        {
+            minlength = min(minlength,(int)strs[i].length());
+        }
+        int i=0;
+        int length=0;
+        while(i<minlength&&flag)
+        {
+            i++;
+            commonprefix = strs[0].substr(0,i);
+            
+            for(int j=1;j<strs.size();j++)
+                if(strcmp(commonprefix.c_str(),(strs[j].substr(0,i)).c_str()))
+                    flag=0;
+            if(flag)
+            {
+                length = i;
+            }
+        }
+        return strs[0].substr(0,length);
+    }
+};
