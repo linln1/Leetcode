@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        //暴力搜索
+        sort(nums.begin(),nums.end());
+        int size = nums.size();
+        int sum = nums[0]+nums[1]+nums[2];
+        int ans = sum;
+        int error = abs(nums[0]+nums[1]+nums[2]-target);
+        for(int i=0;i<size-2;i++)
+        {
+            int l=i+1,r=size-1;
+            while(l<r)
+            {
+                sum = nums[i]+nums[l]+nums[r];
+                if(error>abs(sum-target))
+                {
+                    error = abs(sum-target);
+                    ans = sum;
+                }
+                if(sum<target) l++;
+                else r--;
+            }
+            
+        }
+        return ans;
+    }
+};
