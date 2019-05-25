@@ -1,0 +1,22 @@
+class Solution {
+public:
+    vector<string> ans;
+    
+    void dfs(int left,int right,string str){
+        if(left>right) return  ;
+        else if(left==0&&right==0) ans.push_back(str);
+        if(left>0)  {
+                dfs(left-1,right,str+'(');
+        }
+        if(right>0) {
+                dfs(left,right-1,str+')');
+        }
+        return ;
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        //很容易注意到( 必须>= ) 答案的size其实是一个catalan数
+        dfs(n,n,"");
+        return ans;
+    }
+};
