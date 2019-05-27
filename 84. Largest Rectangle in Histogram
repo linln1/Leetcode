@@ -1,0 +1,24 @@
+// 小数据应该没问题 不过大数据hhh 不知道
+// 很简单的dp
+
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int ans=0;
+        int dp[100][100];
+        int size = heights.size();
+        for(int i=0;i<size;i++)
+            dp[i][i]=heights[i];
+        for(int i=0;i<size;i++)
+        {
+           for(int j=i+1;j<size;j++)
+           {
+                dp[i][j]=min(dp[i][j-1],heights[j]);
+           }
+        }
+        for(int i=0;i<size;i++)
+            for(int j=i+1;j<size;j++)
+                ans = max(ans,dp[i][j]*(j-i+1));
+        return ans;
+    }
+};
