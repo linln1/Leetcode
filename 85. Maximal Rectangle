@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        if(matrix.empty()||matrix[0].empty())
+            return 0;
+        int rows = matrix.size();
+        int lines = matrix[0].size();
+        int ans=0;
+        int** dp=(int**)malloc(sizeof(int*)*rows);
+        for(int i=0;i<rows;i++)
+            dp[i]=(int*)malloc(sizeof(int)*(lines+1));
+        for(int j=0;j<lines;j++)
+            {if(matrix[0][j]=='1')
+                dp[0][j]=1;
+            else
+                dp[0][j]=0;}
+        for(int i=0;i<rows;i++)
+                dp[i][lines]=-1;
+        for(int i=1;i<rows;i++)
+            for(int j=0;j<lines;j++)
+            {
+                if(matrix[i][j]=='1')
+                    dp[i][j]=dp[i-1][j]+1;
+                else
+                    dp[i][j]=0;
+            }    
+        stack<int> S;//单调栈
+        
+        for(int i=0;i<rows;i++)
+            {
+                int top=0;
+                for(int j=0;j<=lines;j++)
+                {
+                    if(S.empty()||dp[i][S.top()]<=dp[i][j])
+                        S.push(j);
+                    else {
+                         while(!S.empty()&&dp[i][S.top()]>dp[i][j])
+                            {
+                            top=S.top();
+                            S.pop();
+                            ans=max(ans,(j-top)*dp[i][top]);
+                         }
+                        S.push(top);
+                        dp[i][top]=dp[i][j];
+                    }
+                }
+                while(S.empty()==0)
+                    S.pop();
+            }
+        for(int i=0;i<rows;i++)
+            free(dp[i]);
+        free(dp);
+        return ans;
+    }
+};
