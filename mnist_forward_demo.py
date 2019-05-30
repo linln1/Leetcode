@@ -3,13 +3,17 @@
 import numpy as py
 import tensorflow as tf
 
+INPUT_NODE = 784
+OUTPUT_NODE = 10
+LAYER1_NODE = 500
+
 def get_weight(shape, regularizer):
-    w = tf.variable(tf.random_normal(shape,stddev=1,seed=1))
-    if regularizer != None: tf.add_to_collection('loss',tf.contrib.layers.l2_regularizer(regularizer)(w))
+    w = tf.Variable(tf.random_normal(shape, stddev=1,seed=1))
+    if regularizer != None: tf.add_to_collection('losses', tf.contrib.layers.l2_regularizer(regularizer)(w))
     return w
 
 def get_bias(shape):
-    b = tf.Variable(tf.zero(shape))
+    b = tf.Variable(tf.zeros(shape))
     return b
 
 def forward(x, regularizer):
