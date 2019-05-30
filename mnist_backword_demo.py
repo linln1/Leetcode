@@ -1,18 +1,20 @@
 # coding:utf-8
 
-import tensorflow as tf
 import mnist_forward
 from tensorflow.examples.tutorials.mnist import input_data
 import os
+import mnist_forward
+import tensorflow as tf
 
 BATCH_SIZE = 300
 LEARNING_RATE_DECAY = 0.99
-LEARINGG_RATE_BASE = 0.1
+LEARNING_RATE_BASE = 0.1
 REGULARIIZER = 0.0001
 STEPS = 500000
 MOVING_AVERAGE_DECAY = 0.99
 MODEL_SAVE_PATH = "./model/"
 MODEL_NAME = "mnist_model"
+OUTPUT_NODE = 10
 
 
 def backward(mnist):
@@ -46,7 +48,7 @@ def backward(mnist):
         init_op = tf.global_variables_initializer()
         sess.run(init_op)
 
-        for i in ranges(STEPS):
+        for i in range(STEPS):
             xs, ys = mnist.train.next_batch(BATCH_SIZE)
             _, loss_value, step = sess.run([train_op, loss, global_step], feed_dict={x: xs, y_: ys})
             if i % 1000 == 0:
