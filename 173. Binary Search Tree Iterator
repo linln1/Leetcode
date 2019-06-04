@@ -1,0 +1,52 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class BSTIterator {
+public:
+    stack<TreeNode*> s;
+    BSTIterator(TreeNode* root) {//构造函数没有返回值
+        while(root!= nullptr ) 
+        {
+            s.push(root);
+            root = root->left;
+        }
+    }
+    
+    /** @return the next smallest number */
+    int next() {
+        TreeNode* top = this->s.top();
+        int next ;
+        next = top->val;
+        this->s.pop();
+        if(top->right){
+            top = top->right;
+            while(top)
+            {
+                s.push(top);
+                top = top->left;
+            }
+        }
+        
+        return next;
+    }
+    
+    /** @return whether we have a next smallest number */
+    bool hasNext() {
+        if(!s.empty())
+            return true;
+        return false;
+    }
+};
+
+/**
+ * Your BSTIterator object will be instantiated and called as such:
+ * BSTIterator* obj = new BSTIterator(root);
+ * int param_1 = obj->next();
+ * bool param_2 = obj->hasNext();
+ */
