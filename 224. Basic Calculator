@@ -1,0 +1,51 @@
+class Solution {
+public:
+    stack<int> num;
+    stack<char> operand;
+    int calculate(string s) {
+        int first = 0;
+        int len = s.size();
+        int ans = 0;
+        for(int i=0;i<len;i++)
+        {
+                int res = 0,flag = 0;
+                if(s[i]==' '||s[i]=='"')
+                    continue;
+                if(s[i]=='+')
+                    operand.push('+');
+                if(s[i]=='-')
+                    operand.push('-');
+                while(s[i]>=0&&s[i]<=9)
+                {
+                    flag = 1;
+                    res =res*10 +(s[i]-'0');
+                    i++;
+                }
+                if(flag)
+                    {
+                    num.push(res);
+                    continue;
+                }
+                if(s[i]==')')
+                {
+                    first--;
+                }   
+                if(!first)
+                    {
+                        if(!operand.empty()&&num.size()>1)
+                        {
+                            int x2 = num.top();
+                            num.pop();
+                            int x1 = num.top();
+                            num.pop();
+                            if(operand.top()=='+')
+                                ans += x1+x2;
+                            else 
+                                ans += x1-x2;
+                            operand.pop();
+                        }
+                    }
+        }
+        return ans;
+    }
+};
